@@ -1,0 +1,97 @@
+.results-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.results-card {
+  max-width: 700px;
+  margin: 28px auto;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.results-card h2 {
+  margin-top: 0;
+  margin-bottom: 28px;
+  text-align: center;
+  font-size: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.result-item {
+  background: linear-gradient(135deg, #fff5e1 0%, #ffe0b5 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(255, 170, 0, 0.15);
+}
+
+.result-item:nth-child(2) {
+  background: linear-gradient(135deg, #e1f5ff 0%, #b3e5fc 100%);
+  box-shadow: 0 4px 15px rgba(0, 153, 255, 0.15);
+}
+
+.result-item:nth-child(3) {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.result-item span {
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result-item strong {
+  font-size: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.result-message {
+  margin: 24px 0 0;
+  padding: 16px;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 12px;
+  color: #2e7d32;
+  font-weight: 500;
+  text-align: center;
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.result-actions .primary-btn {
+  flex: 1;
+}
+
+.result-actions .secondary-btn {
+  flex: 1;
+}
