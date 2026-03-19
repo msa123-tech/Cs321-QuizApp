@@ -1,4 +1,29 @@
-# CS 321 Quiz Platform - Sprint 1 Frontend
+# CS 321 Quiz Platform
+
+A fullstack quiz application built with React/Vite (frontend) and Java/Spring Boot (backend).
+
+## Project Structure
+
+```
+/
+├── frontend/   (React/Vite)
+│   ├── src/
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   └── .env
+├── backend/    (Spring Boot)
+│   ├── src/
+│   └── pom.xml
+├── README.md
+└── .gitignore
+```
+
+---
+
+# Frontend – React/Vite
+
+## Sprint 1 Frontend
 
 ## Project Structure
 
@@ -134,3 +159,148 @@ npm run dev -- --port 5174
 | auth.css | Login/register page styling |
 | quiz.css | Quiz page styling |
 | results.css | Results page styling |
+
+---
+
+# Backend – Java/Spring Boot
+
+## Sprint 1 Backend
+
+## Project Structure
+
+```
+backend/
+  src/
+    main/
+      java/com/example/codingplatform/
+        controller/
+          - AuthController.java
+          - QuizController.java
+        service/
+          - AuthService.java
+          - QuizService.java
+        repository/
+          - UserRepository.java
+          - QuestionRepository.java
+          - UserProgressRepository.java
+        entity/
+          - User.java
+          - Question.java
+          - UserProgress.java
+        dto/
+          - RegisterRequest.java
+          - LoginRequest.java
+          - AuthResponse.java
+          - UserDTO.java
+          - QuestionDTO.java
+          - QuizSubmitRequest.java
+          - QuizResultResponse.java
+        config/
+          - SecurityConfig.java
+          - DataSeeder.java
+        CodingPlatformApplication.java
+      resources/
+        - application.properties
+  pom.xml
+```
+
+## Prerequisites
+
+1. **Java 17+** - Install from https://adoptopenjdk.net/
+2. **Maven** - Install from https://maven.apache.org/
+3. **PostgreSQL** - Install from https://www.postgresql.org/
+
+## Setup Instructions
+
+### 1. PostgreSQL Database Setup
+
+```sql
+CREATE DATABASE cs321_quiz_db;
+```
+
+### 2. Update application.properties (if needed)
+
+Edit `backend/src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/cs321_quiz_db
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+```
+
+### 3. Build Backend
+
+```bash
+cd backend
+mvn clean package
+```
+
+### 4. Run Backend
+
+```bash
+mvn spring-boot:run
+```
+
+The backend will start on **http://localhost:8080**
+
+---
+
+## API Endpoints
+
+### Authentication
+
+#### Register User
+```http
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+#### Login User
+```http
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "john_doe",
+  "password": "password123"
+}
+```
+
+### Quiz
+
+#### Get All Questions
+```http
+GET http://localhost:8080/api/questions
+```
+
+#### Submit Quiz
+```http
+POST http://localhost:8080/api/quiz/submit?userId=1
+Content-Type: application/json
+```
+
+---
+
+## Troubleshooting
+
+### PostgreSQL Connection Error
+- Verify PostgreSQL is running: `psql -U postgres`
+- Check username/password in `application.properties`
+- Ensure database `cs321_quiz_db` exists
+
+### Port 8080 Already in Use
+```bash
+# Find process using port 8080
+netstat -ano | findstr :8080
+```
+
+### Build Fails
+```bash
+mvn clean install -U
+```

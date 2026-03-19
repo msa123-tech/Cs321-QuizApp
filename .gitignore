@@ -1,6 +1,16 @@
+# Frontend (Node.js / Vite)
 node_modules/
 dist/
 .env.local
 .env.*.local
 *.log
 .DS_Store
+
+# Backend (Java / Maven)
+target/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.mvn/
