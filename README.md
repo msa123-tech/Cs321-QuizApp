@@ -6,24 +6,69 @@ A fullstack quiz application built with React/Vite (frontend) and Java/Spring Bo
 
 ```
 /
-├── frontend/   (React/Vite)
+├── frontend/   (React/Vite)  →  runs on http://localhost:5173
 │   ├── src/
 │   ├── index.html
 │   ├── package.json
 │   ├── vite.config.js
 │   └── .env
-├── backend/    (Spring Boot)
+├── backend/    (Spring Boot) →  runs on http://localhost:8080
 │   ├── src/
 │   └── pom.xml
+├── start.sh    ← run BOTH servers with one command
 ├── README.md
 └── .gitignore
 ```
 
 ---
 
-# Frontend – React/Vite
+## 🚀 Quick Start (Run the Full App)
 
-## Sprint 1 Frontend
+> **Prerequisites:** Node.js 16+, Java 17+, Maven
+
+> ℹ️ **No database setup needed!** The backend uses an embedded H2 in-memory database out of the box.
+
+### Step 1 – Start both servers
+
+```bash
+# From the project root, run both frontend and backend together:
+./start.sh
+```
+
+Or start them separately in two terminal windows:
+
+**Terminal 1 – Backend:**
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+**Terminal 2 – Frontend:**
+```bash
+cd frontend
+npm install       # first time only
+npm run dev
+```
+
+### Step 2 – Open the app in your browser
+
+```
+http://localhost:5173
+```
+
+### Step 3 – Try it out
+
+1. Click **"Register"** and create an account
+2. Click **"Login"** and sign in
+3. Answer the quiz questions
+4. Submit the quiz and see your score & XP
+
+> 💡 You can also view the H2 database console at http://localhost:8080/h2-console
+> (JDBC URL: `jdbc:h2:mem:cs321_quiz_db`, user: `sa`, password: *(leave blank)*)
+
+---
+
+# Frontend – React/Vite
 
 ## Project Structure
 
@@ -75,6 +120,7 @@ npm install
 ### 2. Start Development Server
 
 ```bash
+# (still inside the frontend/ directory)
 npm run dev
 ```
 
@@ -208,36 +254,41 @@ backend/
 
 1. **Java 17+** - Install from https://adoptopenjdk.net/
 2. **Maven** - Install from https://maven.apache.org/
-3. **PostgreSQL** - Install from https://www.postgresql.org/
+
+> The backend uses an **H2 in-memory database** by default — no PostgreSQL installation required for local development.
+> To switch to PostgreSQL, see the optional step below.
 
 ## Setup Instructions
 
-### 1. PostgreSQL Database Setup
+### 1. (Optional) Switch to PostgreSQL
 
-```sql
-CREATE DATABASE cs321_quiz_db;
-```
-
-### 2. Update application.properties (if needed)
-
-Edit `backend/src/main/resources/application.properties`:
+By default the app uses H2. To use PostgreSQL instead, update `backend/src/main/resources/application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/cs321_quiz_db
 spring.datasource.username=postgres
 spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-### 3. Build Backend
+And create the database first:
+
+```bash
+psql -U postgres -c "CREATE DATABASE cs321_quiz_db;"
+```
+
+### 2. Build Backend
 
 ```bash
 cd backend
 mvn clean package
 ```
 
-### 4. Run Backend
+### 3. Run Backend
 
 ```bash
+# (still inside the backend/ directory)
 mvn spring-boot:run
 ```
 
