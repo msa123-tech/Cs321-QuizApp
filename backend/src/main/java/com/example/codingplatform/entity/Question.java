@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "questions")
@@ -38,6 +39,11 @@ public class Question {
 
     @Column(nullable = false)
     private Integer correctAnswer; // 0 for A, 1 for B, 2 for C, 3 for D
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
 
     public static Question createSampleQuestion(String topic, String difficulty, String questionText,
                                                String optionA, String optionB, String optionC, String optionD,

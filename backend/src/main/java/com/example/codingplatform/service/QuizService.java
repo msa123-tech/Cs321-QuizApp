@@ -22,10 +22,11 @@ public class QuizService {
         this.userProgressRepository = userProgressRepository;
     }
 
-    public List<QuestionDTO> getAllQuestions() {
-        return questionRepository.findAll().stream()
-            .map(this::convertToDTO)
-            .collect(Collectors.toList());
+    public List<QuestionDTO> getQuestionsByLesson(Long lessonId) {
+        return questionRepository.findByLessonId(lessonId)
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
     public QuizResultResponse submitQuiz(Long userId, QuizSubmitRequest request) {
@@ -92,15 +93,15 @@ public class QuizService {
     }
 
     private QuestionDTO convertToDTO(Question question) {
-        return new QuestionDTO(
-            question.getId(),
-            question.getTopic(),
-            question.getDifficulty(),
-            question.getQuestionText(),
-            question.getOptionA(),
-            question.getOptionB(),
-            question.getOptionC(),
-            question.getOptionD()
-        );
+        QuestionDTO dto = new QuestionDTO();
+        dto.setId(question.getId());
+        dto.setTopic(question.getTopic());
+        dto.setDifficulty(question.getDifficulty());
+        dto.setQuestionText(question.getQuestionText());
+        dto.setOptionA(question.getOptionA());
+        dto.setOptionB(question.getOptionB());
+        dto.setOptionC(question.getOptionC());
+        dto.setOptionD(question.getOptionD());
+        return dto;
     }
 }
