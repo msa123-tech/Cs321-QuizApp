@@ -1,7 +1,14 @@
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2937;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gp-bg: #0f172a;
+  --gp-surface: #1e293b;
+  --gp-green: #58cc02;
+  --gp-blue: #1cb0f6;
+  --gp-text: #f1f5f9;
+  --gp-muted: #94a3b8;
+
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--gp-text);
+  background: var(--gp-bg);
 }
 
 * {
@@ -10,7 +17,7 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gp-bg);
   min-height: 100vh;
 }
 
@@ -21,50 +28,52 @@ body {
 .primary-btn,
 .secondary-btn {
   border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
+  border-radius: 16px;
+  padding: 14px 22px;
   font-size: 16px;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-  color: #fff;
+  background: var(--gp-blue);
+  color: #0f172a;
+  box-shadow: 0 4px 0 #1899d6, 0 10px 28px rgba(28, 176, 246, 0.35);
 }
 
 .primary-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 153, 255, 0.4);
+  filter: brightness(1.06);
 }
 
 .primary-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .secondary-btn {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-  color: #fff;
+  background: rgba(51, 65, 85, 0.9);
+  color: var(--gp-text);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 4px 0 rgba(15, 23, 42, 0.8);
 }
 
 .secondary-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  background: rgba(71, 85, 105, 0.95);
 }
 
 .error-message {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 16px;
   padding: 14px 16px;
   margin-bottom: 12px;
-  font-weight: 500;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  font-weight: 600;
 }
 
 .loading-wrap {
@@ -76,15 +85,15 @@ body {
 }
 
 .loading-wrap p {
-  color: #fff;
-  font-weight: 500;
+  color: var(--gp-muted);
+  font-weight: 600;
 }
 
 .spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #00d4ff;
+  border: 4px solid rgba(148, 163, 184, 0.25);
+  border-top: 4px solid var(--gp-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -95,17 +104,17 @@ body {
   }
 }
 
+/* Legacy navbar — kept for any remaining usage */
 .navbar {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: none;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-left {
@@ -116,16 +125,13 @@ body {
 
 .navbar-left h1 {
   margin: 0;
-  font-size: 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
+  font-size: 22px;
+  color: #f8fafc;
+  font-weight: 800;
 }
 
 .navbar-user {
-  color: #667eea;
+  color: var(--gp-blue);
   font-size: 14px;
   font-weight: 600;
 }
@@ -137,12 +143,11 @@ body {
 }
 
 .xp-chip {
-  background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
-  border: none;
-  color: #fff;
+  background: rgba(88, 204, 2, 0.2);
+  border: 1px solid rgba(88, 204, 2, 0.4);
+  color: #bbf7d0;
   border-radius: 999px;
   padding: 8px 16px;
   font-size: 14px;
-  font-weight: 700;
-  box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3);
+  font-weight: 800;
 }
