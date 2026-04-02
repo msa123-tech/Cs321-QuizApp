@@ -32,4 +32,41 @@ public class QuestionService {
 
         return questionRepository.save(question);
     }
+
+    public Question getQuestionById(Long id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + id));
+    }
+
+    public Question updateQuestion(Long id, Question updatedQuestion) {
+        Question existingQuestion = questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + id));
+
+        existingQuestion.setTopic(updatedQuestion.getTopic());
+        existingQuestion.setDifficulty(updatedQuestion.getDifficulty());
+        existingQuestion.setQuestionText(updatedQuestion.getQuestionText());
+        existingQuestion.setOptionA(updatedQuestion.getOptionA());
+        existingQuestion.setOptionB(updatedQuestion.getOptionB());
+        existingQuestion.setOptionC(updatedQuestion.getOptionC());
+        existingQuestion.setOptionD(updatedQuestion.getOptionD());
+        existingQuestion.setCorrectAnswer(updatedQuestion.getCorrectAnswer());
+
+        if (updatedQuestion.getLesson() != null && updatedQuestion.getLesson().getId() != null) {
+            Long lessonId = updatedQuestion.getLesson().getId();
+
+            Lesson lesson = lessonRepository.findById(lessonId)
+                    .orElseThrow(() -> new RuntimeException("Lesson not found with id: " + lessonId));
+
+            existingQuestion.setLesson(lesson);
+        }
+
+        return questionRepository.save(existingQuestion);
+    }
+
+    public void deleteQuestion(Long id) {
+        Question existingQuestion = questionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + id));
+
+        questionRepository.delete(existingQuestion);
+    }
 }
