@@ -28,6 +28,11 @@ public class LessonController {
         return lessonService.saveLesson(lesson);
     }
 
+    @GetMapping("/unit/{unitId}")
+    public List<Lesson> getLessonsByUnit(@PathVariable Long unitId) {
+        return lessonService.getLessonsByUnitId(unitId);
+    }
+
     @GetMapping("/{id}/questions")
     public List<QuestionDTO> getQuestionsByLesson(@PathVariable Long id) {
         return lessonService.getQuestionsByLessonId(id);

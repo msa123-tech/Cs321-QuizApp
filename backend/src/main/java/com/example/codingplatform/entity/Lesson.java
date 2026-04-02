@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "lessons")
@@ -22,10 +23,16 @@ public class Lesson {
     @Column(nullable = false)
     private String difficulty;
 
-    // Relationship to questions (we’ll fully use this next)
+    // Relationship to questions
     @JsonManagedReference
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
+
+    // Relationship to units
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
 
     // --- Constructors ---
     public Lesson() {}
@@ -82,5 +89,13 @@ public class Lesson {
     public void removeQuestion(Question question) {
         questions.remove(question);
         question.setLesson(null);
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+    
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }
