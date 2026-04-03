@@ -1,5 +1,7 @@
 package com.example.codingplatform.service;
 
+import com.example.codingplatform.dto.LoginRequest;
+import com.example.codingplatform.dto.LoginResponse;
 import com.example.codingplatform.dto.RegisterRequest;
 import com.example.codingplatform.entity.User;
 import com.example.codingplatform.repository.UserRepository;
@@ -56,5 +58,33 @@ public class AuthService {
         }
 
         return password.matches(".*[^a-zA-Z0-9].*");
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        if (request.getIdentifier() == null || request.getIdentifier().trim().isEmpty()) {
+            throw new RuntimeException("Username or email is required");
+        }
+
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is required");
+        }
+
+        String identifier = request.getIdentifier().trim();
+
+        User user = userRepository.findByUsername(identifier)
+                .or(() -> userRepository.findByEmail(identifier))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        LoginResponse.UserInfo userInfo = new LoginResponse.UserInfo(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+
+        return new LoginResponse("dummy-session-token", userInfo);
     }
 }
