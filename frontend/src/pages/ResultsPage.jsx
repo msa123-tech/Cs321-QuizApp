@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import TopBar from '../components/TopBar';
+import { useGamification } from '../context/GamificationContext';
+import '../styles/gamified.css';
 import '../styles/results.css';
 
 function getStoredResult() {
@@ -15,6 +17,7 @@ function getStoredResult() {
 function ResultsPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { addXp, syncTotalXp, completeLessonAtIndex } = useGamification();
 
   const result = useMemo(
     () => location.state?.result || getStoredResult() || {},
@@ -22,16 +25,42 @@ function ResultsPage() {
   );
 
   const score = result.score ?? result.totalScore ?? 0;
-  const xp = result.xpGained ?? result.xp ?? result.totalXp ?? 0;
+  const xpThisQuiz = result.xpGained ?? result.xp ?? 0;
   const correctAnswers = result.correctAnswers ?? result.correct ?? null;
   const totalQuestions = result.totalQuestions ?? result.total ?? null;
 
+  useEffect(() => {
+    const payload = location.state?.result;
+    if (!payload?._clientId) return;
+
+    const key = `gp_applied_${payload._clientId}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+
+    const totalXp = Number(payload.totalXp);
+    if (Number.isFinite(totalXp)) {
+      syncTotalXp(totalXp);
+    } else {
+      const xpGain = Number(payload.xpGained ?? payload.xp ?? 0);
+      if (Number.isFinite(xpGain) && xpGain > 0) {
+        addXp(xpGain);
+      }
+    }
+
+    const li = location.state?.lessonIndex;
+    if (typeof li === 'number' && Number.isFinite(li)) {
+      completeLessonAtIndex(li);
+    }
+  }, [location.state, addXp, syncTotalXp, completeLessonAtIndex]);
+
+  const backTo = location.state?.from || '/dashboard';
+
   return (
-    <main className="results-page">
-      <Navbar title="Quiz Results" showQuizButton xp={typeof xp === 'number' ? xp : null} />
+    <main className="results-page gamified-bg">
+      <TopBar title="Quiz results" showBack backTo={backTo} />
 
       <section className="results-card">
-        <h2>Your Result</h2>
+        <h2>Your result</h2>
 
         <div className="result-grid">
           <div className="result-item">
@@ -40,13 +69,13 @@ function ResultsPage() {
           </div>
 
           <div className="result-item">
-            <span>XP</span>
-            <strong>{xp}</strong>
+            <span>XP (this quiz)</span>
+            <strong>{xpThisQuiz}</strong>
           </div>
 
           {correctAnswers !== null && (
             <div className="result-item">
-              <span>Correct Answers</span>
+              <span>Correct answers</span>
               <strong>
                 {correctAnswers}
                 {typeof totalQuestions === 'number' ? ` / ${totalQuestions}` : ''}
@@ -58,11 +87,11 @@ function ResultsPage() {
         {result.message && <p className="result-message">{result.message}</p>}
 
         <div className="result-actions">
-          <button className="primary-btn" onClick={() => navigate('/quiz')}>
-            Try Another Quiz
+          <button className="primary-btn" type="button" onClick={() => navigate('/dashboard')}>
+            Back to dashboard
           </button>
-          <button className="secondary-btn" onClick={() => navigate('/login')}>
-            Back to Login
+          <button className="secondary-btn" type="button" onClick={() => navigate('/quiz', { replace: true })}>
+            Another quiz
           </button>
         </div>
       </section>

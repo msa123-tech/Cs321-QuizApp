@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchQuestions, submitQuiz } from '../api/quizApi';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
+import TopBar from '../components/TopBar';
 import QuestionCard from '../components/QuestionCard';
 import ErrorMessage from '../components/ErrorMessage';
 import LoadingSpinner from '../components/LoadingSpinner';
+import '../styles/gamified.css';
 import '../styles/quiz.css';
 
 function getQuestionId(question, index) {
@@ -34,7 +35,11 @@ function getErrorMessage(error) {
 
 function QuizPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { token } = useAuth();
+
+  const quizTitle = location.state?.title || 'Quiz';
+  const backTo = location.state?.from || '/dashboard';
 
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -102,10 +107,16 @@ function QuizPage() {
       });
 
       const response = await submitQuiz({ answers }, token);
-      const result = response.data || {};
+      const result = { ...(response.data || {}), _clientId: crypto.randomUUID() };
 
       localStorage.setItem('quizResult', JSON.stringify(result));
-      navigate('/results', { state: { result } });
+      navigate('/results', {
+        state: {
+          result,
+          lessonIndex: location.state?.lessonIndex,
+          from: location.state?.from,
+        },
+      });
     } catch (err) {
       setError(getErrorMessage(err));
     } finally {
@@ -114,8 +125,8 @@ function QuizPage() {
   };
 
   return (
-    <main className="quiz-page">
-      <Navbar title="Quiz Session" />
+    <main className="quiz-page gamified-bg">
+      <TopBar title={quizTitle} showBack backTo={backTo} />
 
       <section className="quiz-body">
         <div className="quiz-top-row">
