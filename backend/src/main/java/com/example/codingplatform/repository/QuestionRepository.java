@@ -9,4 +9,5 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findByTopic(String topic);
     List<Question> findByDifficulty(String difficulty);
+    List<Question> findByLesson_Id(Long lessonId);
 }

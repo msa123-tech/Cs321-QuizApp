@@ -1,85 +1,90 @@
 package com.example.codingplatform.service;
 
-import com.example.codingplatform.dto.RegisterRequest;
 import com.example.codingplatform.dto.LoginRequest;
-import com.example.codingplatform.dto.AuthResponse;
-import com.example.codingplatform.dto.UserDTO;
+import com.example.codingplatform.dto.LoginResponse;
+import com.example.codingplatform.dto.RegisterRequest;
 import com.example.codingplatform.entity.User;
-import com.example.codingplatform.entity.UserProgress;
 import com.example.codingplatform.repository.UserRepository;
-import com.example.codingplatform.repository.UserProgressRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class AuthService {
+
     private final UserRepository userRepository;
-    private final UserProgressRepository userProgressRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, UserProgressRepository userProgressRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userProgressRepository = userProgressRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public AuthResponse register(RegisterRequest request) {
-        // Validation
+    public User register(RegisterRequest request) {
+        if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
+            throw new RuntimeException("Username is required");
+        }
+
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
+            throw new RuntimeException("Email is required");
+        }
+
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is required");
+        }
+
         if (userRepository.existsByUsername(request.getUsername())) {
-            return new AuthResponse("Username already exists");
+            throw new RuntimeException("Username already exists");
         }
+
         if (userRepository.existsByEmail(request.getEmail())) {
-            return new AuthResponse("Email already exists");
+            throw new RuntimeException("Email already exists");
         }
 
-        // Create user
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        if (!isValidPassword(request.getPassword())) {
+            throw new RuntimeException(
+                "Password must be at least 8 characters long and contain at least one special character"
+            );
+        }
 
-        User savedUser = userRepository.save(user);
+        User user = new User(
+            request.getUsername().trim(),
+            request.getEmail().trim(),
+            request.getPassword()
+        );
 
-        // Create user progress
-        UserProgress progress = new UserProgress();
-        progress.setUserId(savedUser.getId());
-        progress.setXp(0);
-        progress.setCompletedQuizzes(0);
-        userProgressRepository.save(progress);
-
-        String token = "token_" + savedUser.getId() + "_" + System.currentTimeMillis();
-
-        return new AuthResponse("Registration successful", token,
-            UserDTO.fromUser(savedUser, 0));
+        return userRepository.save(user);
     }
 
-    public AuthResponse login(LoginRequest request) {
-        // Find user by username or email
-        Optional<User> userOpt = userRepository.findByUsername(request.getIdentifier());
-        if (userOpt.isEmpty()) {
-            userOpt = userRepository.findByEmail(request.getIdentifier());
+    private boolean isValidPassword(String password) {
+        if (password.length() < 8) {
+            return false;
         }
 
-        if (userOpt.isEmpty()) {
-            return new AuthResponse("Invalid credentials");
+        return password.matches(".*[^a-zA-Z0-9].*");
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        if (request.getIdentifier() == null || request.getIdentifier().trim().isEmpty()) {
+            throw new RuntimeException("Username or email is required");
         }
 
-        User user = userOpt.get();
-
-        // Verify password
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return new AuthResponse("Invalid credentials");
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new RuntimeException("Password is required");
         }
 
-        // Get user progress
-        Optional<UserProgress> progressOpt = userProgressRepository.findByUserId(user.getId());
-        Integer xp = progressOpt.map(UserProgress::getXp).orElse(0);
+        String identifier = request.getIdentifier().trim();
 
-        // Create response with token (simple demo token)
-        String token = "token_" + user.getId() + "_" + System.currentTimeMillis();
-        
-        return new AuthResponse("Login successful", token, 
-            UserDTO.fromUser(user, xp));
+        User user = userRepository.findByUsername(identifier)
+                .or(() -> userRepository.findByEmail(identifier))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        LoginResponse.UserInfo userInfo = new LoginResponse.UserInfo(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+
+        return new LoginResponse("dummy-session-token", userInfo);
     }
 }
