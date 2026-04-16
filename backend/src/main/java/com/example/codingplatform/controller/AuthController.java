@@ -5,7 +5,11 @@ import com.example.codingplatform.dto.LoginResponse;
 import com.example.codingplatform.dto.RegisterRequest;
 import com.example.codingplatform.entity.User;
 import com.example.codingplatform.service.AuthService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,12 +23,25 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try {
+            User user = authService.register(request);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            LoginResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            HttpStatus status = "Invalid username/email or password".equals(e.getMessage())
+                    ? HttpStatus.UNAUTHORIZED
+                    : HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(status).body(Map.of("message", e.getMessage()));
+        }
     }
 }

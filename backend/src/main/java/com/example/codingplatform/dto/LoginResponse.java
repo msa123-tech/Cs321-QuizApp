@@ -32,14 +32,16 @@ public class LoginResponse {
         private Long id;
         private String username;
         private String email;
+        private Integer xp;
 
         public UserInfo() {
         }
 
-        public UserInfo(Long id, String username, String email) {
+        public UserInfo(Long id, String username, String email, Integer xp) {
             this.id = id;
             this.username = username;
             this.email = email;
+            this.xp = xp;
         }
 
         public Long getId() {
@@ -64,6 +66,14 @@ public class LoginResponse {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        public Integer getXp() {
+            return xp;
+        }
+
+        public void setXp(Integer xp) {
+            this.xp = xp;
         }
     }
 }

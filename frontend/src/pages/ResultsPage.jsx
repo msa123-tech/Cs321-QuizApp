@@ -5,24 +5,12 @@ import { useGamification } from '../context/GamificationContext';
 import '../styles/gamified.css';
 import '../styles/results.css';
 
-function getStoredResult() {
-  try {
-    const raw = localStorage.getItem('quizResult');
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
 function ResultsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { addXp, syncTotalXp, completeLessonAtIndex } = useGamification();
 
-  const result = useMemo(
-    () => location.state?.result || getStoredResult() || {},
-    [location.state]
-  );
+  const result = useMemo(() => location.state?.result || {}, [location.state]);
 
   const score = result.score ?? result.totalScore ?? 0;
   const xpThisQuiz = result.xpGained ?? result.xp ?? 0;

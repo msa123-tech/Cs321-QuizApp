@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class QuizSubmitRequest {
     private List<AnswerDTO> answers;
+    private String difficulty;
 
     @Data
     @NoArgsConstructor

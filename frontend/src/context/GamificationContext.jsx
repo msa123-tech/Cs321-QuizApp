@@ -29,6 +29,7 @@ function getUserStorageId(user) {
 export function GamificationProvider({ children }) {
   const { user } = useAuth();
   const userId = getUserStorageId(user);
+  const apiXp = user?.xp != null ? Number(user.xp) : NaN;
 
   const [xp, setXpState] = useState(0);
   const [lessonsCompleted, setLessonsCompletedState] = useState(0);
@@ -42,7 +43,6 @@ export function GamificationProvider({ children }) {
     }
 
     const lessons = readNumber(localStorage.getItem(lessonsStorageKey(userId)), 0);
-    const apiXp = user?.xp != null ? Number(user.xp) : NaN;
     const initialXp = Number.isFinite(apiXp)
       ? apiXp
       : readNumber(localStorage.getItem(xpStorageKey(userId)), 0);
@@ -50,8 +50,7 @@ export function GamificationProvider({ children }) {
     setXpState(initialXp);
     setLessonsCompletedState(lessons);
     localStorage.setItem(xpStorageKey(userId), String(initialXp));
-    // Only userId: when the id changes we load that account. Omitting `user` avoids resetting XP if the auth object is replaced with the same id.
-  }, [userId]);
+  }, [userId, apiXp]);
 
   const setXp = useCallback(
     (value) => {

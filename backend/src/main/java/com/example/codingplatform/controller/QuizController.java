@@ -15,6 +15,13 @@ public class QuizController {
         this.quizService = quizService;
     }
 
+    @PostMapping("/quiz/check")
+    public ResponseEntity<QuizResultResponse.QuestionFeedbackDTO> checkAnswer(
+            @RequestBody QuizSubmitRequest.AnswerDTO answer) {
+        QuizResultResponse.QuestionFeedbackDTO response = quizService.checkAnswer(answer);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/quiz/submit")
     public ResponseEntity<QuizResultResponse> submitQuiz(
             @RequestParam(value = "userId", required = false, defaultValue = "1") Long userId,

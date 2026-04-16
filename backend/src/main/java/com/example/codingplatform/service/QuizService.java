@@ -1,8 +1,9 @@
 package com.example.codingplatform.service;
 
-import com.example.codingplatform.dto.QuestionDTO;
 import com.example.codingplatform.dto.QuizSubmitRequest;
 import com.example.codingplatform.dto.QuizResultResponse;
+import com.example.codingplatform.dto.QuestionDTO;
+import com.example.codingplatform.dto.UserProgressDTO;
 import com.example.codingplatform.entity.QuestionType;
 import com.example.codingplatform.entity.Question;
 import com.example.codingplatform.entity.UserProgress;
@@ -31,6 +32,14 @@ public class QuizService {
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
+    }
+
+    public QuizResultResponse.QuestionFeedbackDTO checkAnswer(QuizSubmitRequest.AnswerDTO answer) {
+        Question question = questionRepository.findById(answer.getQuestionId())
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + answer.getQuestionId()));
+
+        Set<Integer> submittedAnswers = new LinkedHashSet<>(answer.getNormalizedSelectedOptionIndices());
+        return buildQuestionFeedback(question, submittedAnswers);
     }
 
     public QuizResultResponse submitQuiz(Long userId, QuizSubmitRequest request) {
@@ -80,6 +89,8 @@ public class QuizService {
             progress.setXp(xpGained);
             progress.setCompletedQuizzes(1);
         }
+
+        applyDifficultyProgress(progress, request.getDifficulty());
         
         userProgressRepository.save(progress);
 
@@ -99,6 +110,11 @@ public class QuizService {
             message,
             questionFeedback
         );
+    }
+
+    public UserProgressDTO getUserProgress(Long userId) {
+        UserProgress progress = userProgressRepository.findByUserId(userId).orElse(null);
+        return UserProgressDTO.fromProgress(progress, userId);
     }
 
     private QuizResultResponse.QuestionFeedbackDTO buildQuestionFeedback(Question question, Set<Integer> submittedAnswers) {
@@ -140,6 +156,20 @@ public class QuizService {
         }
 
         return "INCORRECT";
+    }
+
+    private void applyDifficultyProgress(UserProgress progress, String difficulty) {
+        if (difficulty == null) {
+            return;
+        }
+
+        switch (difficulty.trim().toLowerCase()) {
+            case "easy" -> progress.setEasyCleared(true);
+            case "medium" -> progress.setMediumCleared(true);
+            case "hard" -> progress.setHardCleared(true);
+            default -> {
+            }
+        }
     }
 
     private QuestionDTO convertToDTO(Question question) {

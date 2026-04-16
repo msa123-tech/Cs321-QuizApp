@@ -25,6 +25,15 @@ public class UserProgress {
     @Column(name = "completed_quizzes")
     private Integer completedQuizzes = 0;
 
+    @Column(name = "easy_cleared", nullable = false)
+    private Boolean easyCleared = false;
+
+    @Column(name = "medium_cleared", nullable = false)
+    private Boolean mediumCleared = false;
+
+    @Column(name = "hard_cleared", nullable = false)
+    private Boolean hardCleared = false;
+
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
