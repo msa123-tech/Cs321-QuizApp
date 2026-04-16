@@ -663,3 +663,81 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Play page — difficulty cards */
+.play-diff-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.play-diff-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  border: 2px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.75);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.play-diff-card--enter {
+  animation: card-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.play-diff-card--easy {
+  border-color: rgba(88, 204, 2, 0.45);
+  box-shadow: 0 12px 28px rgba(88, 204, 2, 0.12);
+}
+
+.play-diff-card--medium {
+  border-color: rgba(28, 176, 246, 0.45);
+  box-shadow: 0 12px 28px rgba(28, 176, 246, 0.1);
+}
+
+.play-diff-card--hard {
+  border-color: rgba(251, 113, 133, 0.45);
+  box-shadow: 0 12px 28px rgba(251, 113, 133, 0.1);
+}
+
+.play-diff-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.play-diff-card--locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  border-color: rgba(71, 85, 105, 0.35);
+  box-shadow: none;
+}
+
+.play-diff-icon {
+  display: block;
+  font-size: 1.75rem;
+  margin-bottom: 8px;
+}
+
+.play-diff-title {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.play-diff-desc {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.play-diff-cta {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #58cc02;
+}

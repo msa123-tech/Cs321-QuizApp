@@ -1,16 +1,10 @@
-/** Ordered path for Dashboard "Java Basics" section */
-export const JAVA_BASICS_LESSONS = [
-  { id: 'jb-1', label: '1', title: 'Hello Java' },
-  { id: 'jb-2', label: '2', title: 'Variables' },
-  { id: 'jb-3', label: '3', title: 'Operators' },
-  { id: 'jb-4', label: '4', title: 'Conditionals' },
-  { id: 'jb-5', label: '5', title: 'Loops' },
-  { id: 'jb-6', label: '6', title: 'Methods' },
-  { id: 'jb-7', label: '7', title: 'Review' },
-];
-
+/** Topic practice cards on Learn — matches `/quiz?topic=<id>` */
 export const LEARN_TOPICS = [
-  { id: 'arrays', title: 'Arrays', description: 'Indexing, iteration, and common patterns.', icon: '▦' },
-  { id: 'strings', title: 'Strings', description: 'Immutability, methods, and comparisons.', icon: 'Aa' },
-  { id: 'loops', title: 'Loops', description: 'for, while, and enhanced for.', icon: '↻' },
+  { id: 'arrays', title: 'Arrays', description: 'Indexing, length, iteration.', icon: '▦' },
+  { id: 'strings', title: 'Strings', description: 'Literals, methods, comparisons.', icon: 'Aa' },
+  { id: 'loops', title: 'Loops', description: 'for, while, enhanced for.', icon: '↻' },
+  { id: 'functions', title: 'Functions', description: 'Methods, parameters, return.', icon: 'ƒ' },
+  { id: 'conditionals', title: 'Conditionals', description: 'if / else, switch, logic.', icon: '◇' },
+  { id: 'oop', title: 'OOP', description: 'Classes, inheritance, polymorphism.', icon: '◎' },
+  { id: 'variables', title: 'Variables', description: 'Types, scope, initialization.', icon: 'α' },
 ];

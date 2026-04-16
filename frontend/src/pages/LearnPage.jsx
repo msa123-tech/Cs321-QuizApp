@@ -17,15 +17,7 @@ function LearnPage() {
               type="button"
               className="topic-card topic-card--enter"
               style={{ animationDelay: `${i * 0.06}s` }}
-              onClick={() =>
-                navigate('/quiz', {
-                  state: {
-                    from: '/learn',
-                    topic: topic.id,
-                    title: topic.title,
-                  },
-                })
-              }
+              onClick={() => navigate(`/quiz?topic=${encodeURIComponent(topic.id)}&from=learn`)}
             >
               <span className="topic-card-icon" aria-hidden="true">
                 {topic.icon}

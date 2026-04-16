@@ -4,7 +4,6 @@ import QuizPage from './pages/QuizPage';
 import ResultsPage from './pages/ResultsPage';
 import DashboardPage from './pages/DashboardPage';
 import LearnPage from './pages/LearnPage';
-import PracticePage from './pages/PracticePage';
 import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import GamifiedLayout from './layouts/GamifiedLayout';
@@ -19,7 +18,6 @@ function App() {
         <Route element={<GamifiedLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/learn" element={<LearnPage />} />
-          <Route path="/practice" element={<PracticePage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="/quiz" element={<QuizPage />} />

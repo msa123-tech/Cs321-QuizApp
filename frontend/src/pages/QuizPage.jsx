@@ -1,167 +1,97 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchQuestions, submitQuiz } from '../api/quizApi';
-import { useAuth } from '../context/AuthContext';
+import { useCallback, useMemo } from 'react';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import TopBar from '../components/TopBar';
-import QuestionCard from '../components/QuestionCard';
-import ErrorMessage from '../components/ErrorMessage';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Quiz from '../components/Quiz';
+import { useGamification } from '../context/GamificationContext';
+import { LEARN_TOPICS } from '../data/lessons';
+import { getMockQuestions, isValidDifficulty, isValidTopic } from '../data/mockQuiz';
+import { markDifficultyComplete, readPlayProgress } from '../data/playProgress';
 import '../styles/gamified.css';
 import '../styles/quiz.css';
 
-function getQuestionId(question, index) {
-  return question.id ?? question.questionId ?? index;
-}
+const XP_BY_DIFFICULTY = { easy: 10, medium: 15, hard: 20 };
+const TOPIC_XP = 10;
 
-function getOptions(question) {
-  if (Array.isArray(question.options) && question.options.length > 0) {
-    return question.options;
-  }
-  return [question.optionA, question.optionB, question.optionC, question.optionD].filter(Boolean);
-}
-
-function getErrorMessage(error) {
-  if (!error?.response) {
-    return 'Cannot reach backend API. Verify backend is running and accessible from http://localhost:5173.';
-  }
-
-  return (
-    error?.response?.data?.message ||
-    error?.response?.data?.error ||
-    error?.message ||
-    'Unable to complete request.'
-  );
+function titleCaseDifficulty(d) {
+  return d.charAt(0).toUpperCase() + d.slice(1);
 }
 
 function QuizPage() {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { token } = useAuth();
+  const { addXp } = useGamification();
 
-  const quizTitle = location.state?.title || 'Quiz';
-  const backTo = location.state?.from || '/dashboard';
+  const topic = searchParams.get('topic');
+  const difficulty = searchParams.get('difficulty');
+  const from = searchParams.get('from') || (topic ? 'learn' : 'dashboard');
 
-  const [questions, setQuestions] = useState([]);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const backTo = from === 'learn' ? '/learn' : '/dashboard';
 
-  useEffect(() => {
-    const loadQuestions = async () => {
-      setLoading(true);
-      setError('');
+  const config = useMemo(() => {
+    const hasTopic = Boolean(topic) && isValidTopic(topic);
+    const hasDiff = Boolean(difficulty) && isValidDifficulty(difficulty);
+    if (hasTopic === hasDiff) return null;
 
-      try {
-        const response = await fetchQuestions(token);
-        const data = response.data;
-        const normalized = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.questions)
-          ? data.questions
-          : [];
+    if (hasDiff) {
+      const prog = readPlayProgress();
+      if (difficulty === 'medium' && !prog.easy) return { error: 'locked' };
+      if (difficulty === 'hard' && !prog.medium) return { error: 'locked' };
+      const questions = getMockQuestions({ difficulty });
+      return {
+        mode: 'difficulty',
+        difficulty,
+        questions,
+        xpPerCorrect: XP_BY_DIFFICULTY[difficulty],
+        title: `${titleCaseDifficulty(difficulty)} challenge`,
+      };
+    }
 
-        setQuestions(normalized);
-      } catch (err) {
-        setError(getErrorMessage(err));
-      } finally {
-        setLoading(false);
-      }
+    const questions = getMockQuestions({ topic });
+    const label = LEARN_TOPICS.find((t) => t.id === topic)?.title ?? topic;
+    return {
+      mode: 'topic',
+      topic,
+      questions,
+      xpPerCorrect: TOPIC_XP,
+      title: `${label} practice`,
     };
+  }, [topic, difficulty]);
 
-    loadQuestions();
-  }, [token]);
-
-  const totalAnswered = useMemo(
-    () => Object.keys(selectedAnswers).length,
-    [selectedAnswers]
+  const handleComplete = useCallback(
+    ({ sessionXp }) => {
+      if (config?.mode === 'difficulty' && config.difficulty) {
+        markDifficultyComplete(config.difficulty);
+      }
+      navigate(backTo, { replace: true, state: { quizDone: true, sessionXp } });
+    },
+    [navigate, backTo, config]
   );
 
-  const handleSelectAnswer = (questionId, optionIndex) => {
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionIndex,
-    }));
-  };
+  const handleEarnXp = useCallback(
+    (amount) => {
+      addXp(amount);
+    },
+    [addXp]
+  );
 
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    setError('');
+  if (!config || config.error === 'locked') {
+    return <Navigate to="/dashboard" replace />;
+  }
 
-    try {
-      const answers = questions.map((question, index) => {
-        const questionId = getQuestionId(question, index);
-        const selectedOptionIndex = selectedAnswers[questionId];
-        const options = getOptions(question);
-        const selectedOption =
-          selectedOptionIndex !== undefined ? options[selectedOptionIndex] : null;
-
-        return {
-          questionId,
-          selectedOptionIndex,
-          selectedOptionText:
-            typeof selectedOption === 'string'
-              ? selectedOption
-              : selectedOption?.text ?? null,
-        };
-      });
-
-      const response = await submitQuiz({ answers }, token);
-      const result = { ...(response.data || {}), _clientId: crypto.randomUUID() };
-
-      localStorage.setItem('quizResult', JSON.stringify(result));
-      navigate('/results', {
-        state: {
-          result,
-          lessonIndex: location.state?.lessonIndex,
-          from: location.state?.from,
-        },
-      });
-    } catch (err) {
-      setError(getErrorMessage(err));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  if (!config.questions.length) {
+    return <Navigate to={backTo} replace />;
+  }
 
   return (
     <main className="quiz-page gamified-bg">
-      <TopBar title={quizTitle} showBack backTo={backTo} />
-
+      <TopBar title={config.title} showBack backTo={backTo} subtitle="One question at a time" />
       <section className="quiz-body">
-        <div className="quiz-top-row">
-          <h2>Answer all questions</h2>
-          <p>
-            Answered: {totalAnswered}/{questions.length}
-          </p>
-        </div>
-
-        <ErrorMessage message={error} />
-
-        {loading ? (
-          <LoadingSpinner label="Fetching questions..." />
-        ) : questions.length === 0 ? (
-          <div className="empty-state">No questions available right now.</div>
-        ) : (
-          <>
-            {questions.map((question, index) => {
-              const questionId = getQuestionId(question, index);
-              return (
-                <QuestionCard
-                  key={questionId}
-                  question={question}
-                  index={index}
-                  selectedValue={selectedAnswers[questionId]}
-                  onSelect={handleSelectAnswer}
-                />
-              );
-            })}
-
-            <button className="primary-btn submit-btn" onClick={handleSubmit} disabled={submitting}>
-              {submitting ? 'Submitting...' : 'Submit Quiz'}
-            </button>
-          </>
-        )}
+        <Quiz
+          questions={config.questions}
+          xpPerCorrectQuestion={config.xpPerCorrect}
+          onComplete={handleComplete}
+          onEarnXp={handleEarnXp}
+        />
       </section>
     </main>
   );
