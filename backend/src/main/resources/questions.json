@@ -1,0 +1,861 @@
+[
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {1,2,3};\nSystem.out.println(arr[0]);",
+    "optionA": "1",
+    "optionB": "2",
+    "optionC": "3",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {5,10,15};\nSystem.out.println(arr[2]);",
+    "optionA": "5",
+    "optionB": "10",
+    "optionC": "15",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is the size of this array?\nint[] arr = {1,2,3,4};",
+    "optionA": "3",
+    "optionB": "4",
+    "optionC": "5",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "Which are valid array declarations?",
+    "optionA": "int[] arr = new int[5];",
+    "optionB": "int arr[] = new int[5];",
+    "optionC": "int arr = [1,2];",
+    "optionD": "int arr = new int();",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {1,2,3};\narr[1] = 5;\nSystem.out.println(arr[1]);",
+    "optionA": "2",
+    "optionB": "5",
+    "optionC": "3",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {1,2,3};\nSystem.out.println(arr.length);",
+    "optionA": "2",
+    "optionB": "3",
+    "optionC": "4",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {1,2,3};\nSystem.out.println(arr[3]);",
+    "optionA": "3",
+    "optionB": "0",
+    "optionC": "Error",
+    "optionD": "null",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = new int[2];\nSystem.out.println(arr[0]);",
+    "optionA": "0",
+    "optionB": "null",
+    "optionC": "Error",
+    "optionD": "1",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint[] arr = {1,2,3};\nfor(int i=0;i<3;i++){\n  System.out.print(arr[i]);\n}",
+    "optionA": "123",
+    "optionB": "321",
+    "optionC": "012",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "Which are properties of arrays in Java?",
+    "optionA": "Fixed size",
+    "optionB": "Indexed",
+    "optionC": "Dynamic",
+    "optionD": "Stores same type",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString s = \"Java\";\nSystem.out.println(s.length());",
+    "optionA": "3",
+    "optionB": "4",
+    "optionC": "5",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString s = \"Code\";\nSystem.out.println(s.charAt(0));",
+    "optionA": "C",
+    "optionB": "o",
+    "optionC": "d",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nSystem.out.println(\"Hi\" + \"Java\");",
+    "optionA": "Hi Java",
+    "optionB": "HiJava",
+    "optionC": "JavaHi",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "Which are valid String methods?",
+    "optionA": "length()",
+    "optionB": "charAt()",
+    "optionC": "concat()",
+    "optionD": "push()",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString s = \"cat\";\nSystem.out.println(s.charAt(2));",
+    "optionA": "c",
+    "optionB": "a",
+    "optionC": "t",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString s = \"abc\";\nSystem.out.println(s.charAt(1));",
+    "optionA": "a",
+    "optionB": "b",
+    "optionC": "c",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString s = \"A\".concat(\"B\");\nSystem.out.println(s);",
+    "optionA": "A B",
+    "optionB": "BA",
+    "optionC": "AB",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nString s = \"hello\";\nSystem.out.println(s.length() + s.charAt(0));",
+    "optionA": "5h",
+    "optionB": "h5",
+    "optionC": "104",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "questionText": "Which statements correctly build the string \"Java\"?",
+    "optionA": "\"Ja\" + \"va\"",
+    "optionB": "\"Java\".concat(\"\")",
+    "optionC": "\"Java\" - \"\"",
+    "optionD": "new String(\"Java\")",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "topic": "Strings",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nString s = \"code\";\nSystem.out.println(s.charAt(s.length()-1));",
+    "optionA": "c",
+    "optionB": "o",
+    "optionC": "d",
+    "optionD": "e",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      3
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nfor(int i=0;i<3;i++)\n  System.out.print(i);",
+    "optionA": "012",
+    "optionB": "123",
+    "optionC": "321",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint i=0;\nwhile(i<2){\n  System.out.print(i);\n  i++;\n}",
+    "optionA": "01",
+    "optionB": "12",
+    "optionC": "02",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "How many times does this loop run?\nfor(int i=0;i<4;i++){}",
+    "optionA": "3",
+    "optionB": "4",
+    "optionC": "5",
+    "optionD": "0",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nfor(int i=1;i<=3;i++)\n  System.out.print(i);",
+    "optionA": "123",
+    "optionB": "012",
+    "optionC": "321",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "Which are loop types in Java?",
+    "optionA": "for",
+    "optionB": "while",
+    "optionC": "repeat",
+    "optionD": "do-while",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nfor(int i=2;i<5;i++)\n  System.out.print(i);",
+    "optionA": "234",
+    "optionB": "245",
+    "optionC": "123",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nint sum = 0;\nfor(int i=1;i<=3;i++){\n  sum += i;\n}\nSystem.out.println(sum);",
+    "optionA": "3",
+    "optionB": "6",
+    "optionC": "9",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nint i=3;\nwhile(i>0){\n  System.out.print(i);\n  i--;\n}",
+    "optionA": "012",
+    "optionB": "321",
+    "optionC": "123",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Medium",
+    "questionText": "Which loops can repeat based on a condition?",
+    "optionA": "for",
+    "optionB": "while",
+    "optionC": "do-while",
+    "optionD": "switch",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Loops",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nint i=1;\nwhile(i<3){\n  i++;\n}\nSystem.out.println(i);",
+    "optionA": "1",
+    "optionB": "2",
+    "optionC": "3",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint add(int a,int b){ return a+b; }\nSystem.out.println(add(2,3));",
+    "optionA": "2",
+    "optionB": "3",
+    "optionC": "5",
+    "optionD": "23",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "What does a return statement do?",
+    "optionA": "Stops a loop",
+    "optionB": "Sends a value back",
+    "optionC": "Prints text",
+    "optionD": "Creates a variable",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "How do you call a method named test with no parameters?",
+    "optionA": "test;",
+    "optionB": "call(test);",
+    "optionC": "test();",
+    "optionD": "method test();",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "Which parts can a method have?",
+    "optionA": "return type",
+    "optionB": "method name",
+    "optionC": "parameters",
+    "optionD": "pizza",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint square(int x){ return x*x; }\nSystem.out.println(square(3));",
+    "optionA": "3",
+    "optionB": "6",
+    "optionC": "9",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "questionText": "Which are valid method declarations?",
+    "optionA": "int add(int a, int b){ return a+b; }",
+    "optionB": "void test(){}",
+    "optionC": "method go(){}",
+    "optionD": "String name(){ return \"A\"; }",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nint sub(int a,int b){ return a-b; }\nSystem.out.println(sub(10,4));",
+    "optionA": "6",
+    "optionB": "14",
+    "optionC": "10",
+    "optionD": "4",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Medium",
+    "questionText": "Which method calls are valid for a method declared as int add(int a, int b)?",
+    "optionA": "add(1,2)",
+    "optionB": "add()",
+    "optionC": "add(5,6)",
+    "optionD": "add(\"1\",\"2\")",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      2
+    ]
+  },
+  {
+    "topic": "Functions",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nint f(int x){ return x+1; }\nSystem.out.println(f(f(2)));",
+    "optionA": "2",
+    "optionB": "3",
+    "optionC": "4",
+    "optionD": "5",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint x=5;\nif(x>3) System.out.println(\"Yes\");",
+    "optionA": "Yes",
+    "optionB": "No",
+    "optionC": "5",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint x=2;\nif(x>3) System.out.println(\"Yes\"); else System.out.println(\"No\");",
+    "optionA": "Yes",
+    "optionB": "No",
+    "optionC": "2",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "Which keyword is used for another condition check?",
+    "optionA": "otherwise",
+    "optionB": "elseif",
+    "optionC": "else if",
+    "optionD": "next if",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "Which comparison operators are valid in Java conditions?",
+    "optionA": ">",
+    "optionB": "<",
+    "optionC": "==",
+    "optionD": "<>",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint x=7;\nif(x==7) System.out.println(\"Match\");",
+    "optionA": "Match",
+    "optionB": "No Match",
+    "optionC": "7",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint x=4;\nif(x<2) System.out.println(\"Low\"); else System.out.println(\"High\");",
+    "optionA": "Low",
+    "optionB": "High",
+    "optionC": "4",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nint x=5;\nif(x%2==0) System.out.println(\"Even\"); else System.out.println(\"Odd\");",
+    "optionA": "Even",
+    "optionB": "Odd",
+    "optionC": "5",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Medium",
+    "questionText": "Which expressions evaluate to true when x = 5?",
+    "optionA": "x > 3",
+    "optionB": "x == 5",
+    "optionC": "x < 2",
+    "optionD": "x != 5",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1
+    ]
+  },
+  {
+    "topic": "Conditionals",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nint x=3;\nif(x>5) System.out.println(\"A\"); else if(x>1) System.out.println(\"B\"); else System.out.println(\"C\");",
+    "optionA": "A",
+    "optionB": "B",
+    "optionC": "C",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Easy",
+    "questionText": "What does this create?\nclass A{}\nA obj = new A();",
+    "optionA": "A method",
+    "optionB": "An object",
+    "optionC": "A loop",
+    "optionD": "An array",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Easy",
+    "questionText": "What is a class?",
+    "optionA": "An object created from code",
+    "optionB": "A blueprint for objects",
+    "optionC": "A variable type only",
+    "optionD": "A loop structure",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Easy",
+    "questionText": "What keyword creates an object?",
+    "optionA": "class",
+    "optionB": "object",
+    "optionC": "new",
+    "optionD": "this",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Easy",
+    "questionText": "Which are common OOP concepts?",
+    "optionA": "Class",
+    "optionB": "Object",
+    "optionC": "Inheritance",
+    "optionD": "Array index",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Easy",
+    "questionText": "What is obj in A obj = new A();?",
+    "optionA": "Class name",
+    "optionB": "Object reference",
+    "optionC": "Method name",
+    "optionD": "Keyword",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Medium",
+    "questionText": "Which are valid statements about objects?",
+    "optionA": "Objects are created from classes",
+    "optionB": "A class can create many objects",
+    "optionC": "Objects are created with new",
+    "optionD": "Objects can only store numbers",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "OOP",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nclass A { int x = 5; }\nA obj = new A();\nSystem.out.println(obj.x);",
+    "optionA": "0",
+    "optionB": "5",
+    "optionC": "x",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nint x=10;\nSystem.out.println(x);",
+    "optionA": "10",
+    "optionB": "x",
+    "optionC": "0",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "Which type stores whole numbers?",
+    "optionA": "String",
+    "optionB": "int",
+    "optionC": "boolean",
+    "optionD": "double[]",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "Which type stores true or false?",
+    "optionA": "int",
+    "optionB": "String",
+    "optionC": "boolean",
+    "optionD": "char",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "Which are valid Java variable types?",
+    "optionA": "int",
+    "optionB": "String",
+    "optionC": "boolean",
+    "optionD": "number",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\nString name = \"Sam\";\nSystem.out.println(name);",
+    "optionA": "Sam",
+    "optionB": "name",
+    "optionC": "String",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      0
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "questionText": "What is printed?\ndouble x = 2.5;\nSystem.out.println(x);",
+    "optionA": "2",
+    "optionB": "2.5",
+    "optionC": "x",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Medium",
+    "questionText": "Which are valid variable declarations in Java?",
+    "optionA": "int x = 5;",
+    "optionB": "String name = \"Ana\";",
+    "optionC": "boolean ok = true;",
+    "optionD": "num y = 4;",
+    "questionType": "MULTI",
+    "correctAnswers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Medium",
+    "questionText": "What is printed?\nint x = 5;\nint y = x + 2;\nSystem.out.println(y);",
+    "optionA": "5",
+    "optionB": "7",
+    "optionC": "2",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      1
+    ]
+  },
+  {
+    "topic": "Variables",
+    "difficulty": "Hard",
+    "questionText": "What is printed?\nint x = 3;\nx = x + 4;\nSystem.out.println(x);",
+    "optionA": "3",
+    "optionB": "4",
+    "optionC": "7",
+    "optionD": "Error",
+    "questionType": "SINGLE",
+    "correctAnswers": [
+      2
+    ]
+  }
+]

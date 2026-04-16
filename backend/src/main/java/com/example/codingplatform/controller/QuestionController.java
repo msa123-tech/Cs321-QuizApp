@@ -1,8 +1,11 @@
 package com.example.codingplatform.controller;
 
+import com.example.codingplatform.dto.QuestionDTO;
 import com.example.codingplatform.entity.Question;
 import com.example.codingplatform.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -13,6 +16,13 @@ public class QuestionController {
 
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
+    }
+
+    @GetMapping
+    public List<QuestionDTO> getQuestions(
+            @RequestParam(required = false) String topic,
+            @RequestParam(required = false) String difficulty) {
+        return questionService.getQuestions(topic, difficulty);
     }
 
     @PostMapping

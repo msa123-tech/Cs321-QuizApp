@@ -45,7 +45,7 @@ public class LessonService {
     }
 
     public List<QuestionDTO> getQuestionsByLessonId(Long lessonId) {
-        List<Question> questions = questionRepository.findByLessonId(lessonId);
+        List<Question> questions = questionRepository.findByLesson_Id(lessonId);
 
         return questions.stream()
                 .map(this::convertToDTO)
@@ -66,6 +66,7 @@ public class LessonService {
         dto.setOptionB(question.getOptionB());
         dto.setOptionC(question.getOptionC());
         dto.setOptionD(question.getOptionD());
+        dto.setQuestionType(question.getQuestionType());
         return dto;
     }
 }
