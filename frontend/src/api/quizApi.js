@@ -18,14 +18,22 @@ function authHeaders(token) {
     : {};
 }
 
-export function fetchQuestions(token) {
+export function fetchQuestions(token, params = {}) {
   return quizClient.get('/api/questions', {
+    headers: authHeaders(token),
+    params,
+  });
+}
+
+export function checkAnswer(payload, token) {
+  return quizClient.post('/api/quiz/check', payload, {
     headers: authHeaders(token),
   });
 }
 
-export function submitQuiz(payload, token) {
+export function submitQuiz(payload, token, userId) {
   return quizClient.post('/api/quiz/submit', payload, {
     headers: authHeaders(token),
+    params: userId ? { userId } : {},
   });
 }

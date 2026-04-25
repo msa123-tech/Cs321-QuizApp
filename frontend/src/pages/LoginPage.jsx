@@ -39,7 +39,7 @@ function LoginPage() {
     password: '',
   });
 
-  const redirectPath = location.state?.from || '/quiz';
+  const redirectPath = location.state?.from || '/dashboard';
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();

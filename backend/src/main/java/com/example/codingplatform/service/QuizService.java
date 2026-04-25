@@ -1,16 +1,21 @@
 package com.example.codingplatform.service;
 
-import com.example.codingplatform.dto.QuestionDTO;
 import com.example.codingplatform.dto.QuizSubmitRequest;
 import com.example.codingplatform.dto.QuizResultResponse;
+import com.example.codingplatform.dto.QuestionDTO;
+import com.example.codingplatform.dto.UserProgressDTO;
+import com.example.codingplatform.entity.QuestionType;
 import com.example.codingplatform.entity.Question;
 import com.example.codingplatform.entity.UserProgress;
 import com.example.codingplatform.repository.QuestionRepository;
 import com.example.codingplatform.repository.UserProgressRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 public class QuizService {
@@ -22,10 +27,19 @@ public class QuizService {
         this.userProgressRepository = userProgressRepository;
     }
 
-    public List<QuestionDTO> getAllQuestions() {
-        return questionRepository.findAll().stream()
-            .map(this::convertToDTO)
-            .collect(Collectors.toList());
+    public List<QuestionDTO> getQuestionsByLesson(Long lessonId) {
+        return questionRepository.findByLesson_Id(lessonId)
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
+    public QuizResultResponse.QuestionFeedbackDTO checkAnswer(QuizSubmitRequest.AnswerDTO answer) {
+        Question question = questionRepository.findById(answer.getQuestionId())
+                .orElseThrow(() -> new RuntimeException("Question not found with id: " + answer.getQuestionId()));
+
+        Set<Integer> submittedAnswers = new LinkedHashSet<>(answer.getNormalizedSelectedOptionIndices());
+        return buildQuestionFeedback(question, submittedAnswers);
     }
 
     public QuizResultResponse submitQuiz(Long userId, QuizSubmitRequest request) {
@@ -33,12 +47,13 @@ public class QuizService {
         List<Question> questions = questionRepository.findAll();
         
         if (questions.isEmpty()) {
-            return new QuizResultResponse(0, 0, 0, 0, 0, 0, "No questions available");
+            return new QuizResultResponse(0, 0, 0, 0, 0, 0, "No questions available", List.of());
         }
 
         // Calculate score
         int correctCount = 0;
         int totalQuestions = Math.min(questions.size(), request.getAnswers().size());
+        List<QuizResultResponse.QuestionFeedbackDTO> questionFeedback = new ArrayList<>();
 
         for (QuizSubmitRequest.AnswerDTO answer : request.getAnswers()) {
             Optional<Question> questionOpt = questions.stream()
@@ -47,8 +62,11 @@ public class QuizService {
 
             if (questionOpt.isPresent()) {
                 Question q = questionOpt.get();
-                if (answer.getSelectedOptionIndex() != null && 
-                    answer.getSelectedOptionIndex().equals(q.getCorrectAnswer())) {
+                Set<Integer> submittedAnswers = new LinkedHashSet<>(answer.getNormalizedSelectedOptionIndices());
+                QuizResultResponse.QuestionFeedbackDTO feedback = buildQuestionFeedback(q, submittedAnswers);
+                questionFeedback.add(feedback);
+
+                if ("CORRECT".equals(feedback.getResult())) {
                     correctCount++;
                 }
             }
@@ -71,13 +89,15 @@ public class QuizService {
             progress.setXp(xpGained);
             progress.setCompletedQuizzes(1);
         }
+
+        applyDifficultyProgress(progress, request.getDifficulty());
         
         userProgressRepository.save(progress);
 
         // Create response
-        int score = (int) ((correctCount * 100) / totalQuestions);
+        int score = totalQuestions == 0 ? 0 : (int) ((correctCount * 100) / totalQuestions);
         String message = correctCount == totalQuestions ? "Perfect score! 🎉" : 
-                        correctCount >= totalQuestions / 2 ? "Great job! 👍" : 
+                        (correctCount > 0 && correctCount * 2 >= totalQuestions) ? "Great job! 👍" : 
                         "Keep practicing! 💪";
 
         return new QuizResultResponse(
@@ -87,20 +107,82 @@ public class QuizService {
             totalQuestions,
             xpGained,
             progress.getXp(),
-            message
+            message,
+            questionFeedback
         );
     }
 
-    private QuestionDTO convertToDTO(Question question) {
-        return new QuestionDTO(
-            question.getId(),
-            question.getTopic(),
-            question.getDifficulty(),
-            question.getQuestionText(),
-            question.getOptionA(),
-            question.getOptionB(),
-            question.getOptionC(),
-            question.getOptionD()
+    public UserProgressDTO getUserProgress(Long userId) {
+        UserProgress progress = userProgressRepository.findByUserId(userId).orElse(null);
+        return UserProgressDTO.fromProgress(progress, userId);
+    }
+
+    private QuizResultResponse.QuestionFeedbackDTO buildQuestionFeedback(Question question, Set<Integer> submittedAnswers) {
+        Set<Integer> correctAnswers = new LinkedHashSet<>(question.getCorrectAnswers());
+        Set<Integer> missedAnswers = new LinkedHashSet<>(correctAnswers);
+        missedAnswers.removeAll(submittedAnswers);
+
+        Set<Integer> wrongAnswers = new LinkedHashSet<>(submittedAnswers);
+        wrongAnswers.removeAll(correctAnswers);
+
+        String result = determineResult(question.getQuestionType(), submittedAnswers, correctAnswers, missedAnswers, wrongAnswers);
+
+        return new QuizResultResponse.QuestionFeedbackDTO(
+                question.getId(),
+                result,
+                List.copyOf(submittedAnswers),
+                List.copyOf(correctAnswers),
+                List.copyOf(missedAnswers),
+                List.copyOf(wrongAnswers)
         );
+    }
+
+    private String determineResult(QuestionType questionType,
+                                   Set<Integer> submittedAnswers,
+                                   Set<Integer> correctAnswers,
+                                   Set<Integer> missedAnswers,
+                                   Set<Integer> wrongAnswers) {
+        if (submittedAnswers.equals(correctAnswers)) {
+            return "CORRECT";
+        }
+
+        if (questionType == QuestionType.MULTI && !submittedAnswers.isEmpty()) {
+            Set<Integer> matchedAnswers = new LinkedHashSet<>(submittedAnswers);
+            matchedAnswers.retainAll(correctAnswers);
+
+            if (!matchedAnswers.isEmpty() && (!missedAnswers.isEmpty() || !wrongAnswers.isEmpty())) {
+                return "PARTIAL";
+            }
+        }
+
+        return "INCORRECT";
+    }
+
+    private void applyDifficultyProgress(UserProgress progress, String difficulty) {
+        if (difficulty == null) {
+            return;
+        }
+
+        switch (difficulty.trim().toLowerCase()) {
+            case "easy" -> progress.setEasyCleared(true);
+            case "medium" -> progress.setMediumCleared(true);
+            case "hard" -> progress.setHardCleared(true);
+            default -> {
+            }
+        }
+    }
+
+    private QuestionDTO convertToDTO(Question question) {
+        QuestionDTO dto = new QuestionDTO();
+        dto.setId(question.getId());
+        dto.setTopic(question.getTopic());
+        dto.setDifficulty(question.getDifficulty());
+        dto.setQuestionText(question.getQuestionText());
+        dto.setOptionA(question.getOptionA());
+        dto.setOptionB(question.getOptionB());
+        dto.setOptionC(question.getOptionC());
+        dto.setOptionD(question.getOptionD());
+        dto.setQuestionType(question.getQuestionType());
+        return dto;
     }
 }

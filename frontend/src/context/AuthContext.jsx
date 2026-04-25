@@ -26,7 +26,6 @@ export function AuthProvider({ children }) {
     setUser(null);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
-    localStorage.removeItem('quizResult');
   };
 
   const value = useMemo(

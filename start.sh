@@ -25,6 +25,8 @@ echo ""
 # ── Backend ──────────────────────────────────────────────────────────────────
 echo "▶ Starting Spring Boot backend on http://localhost:8080 ..."
 cd "$ROOT_DIR/backend"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
+export PATH="$JAVA_HOME/bin:$PATH"
 mvn spring-boot:run &
 BACKEND_PID=$!
 

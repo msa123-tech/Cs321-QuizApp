@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "questions")
@@ -37,11 +41,38 @@ public class Question {
     private String optionD;
 
     @Column(nullable = false)
-    private Integer correctAnswer; // 0 for A, 1 for B, 2 for C, 3 for D
+    @Enumerated(EnumType.STRING)
+    private QuestionType questionType = QuestionType.SINGLE;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "question_correct_answers", joinColumns = @JoinColumn(name = "question_id"))
+    @Column(name = "correct_option_index", nullable = false)
+    private Set<Integer> correctAnswers = new LinkedHashSet<>();
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
 
     public static Question createSampleQuestion(String topic, String difficulty, String questionText,
                                                String optionA, String optionB, String optionC, String optionD,
                                                Integer correctAnswer) {
+        return createSampleQuestion(
+                topic,
+                difficulty,
+                questionText,
+                optionA,
+                optionB,
+                optionC,
+                optionD,
+                QuestionType.SINGLE,
+                Set.of(correctAnswer)
+        );
+    }
+
+    public static Question createSampleQuestion(String topic, String difficulty, String questionText,
+                                               String optionA, String optionB, String optionC, String optionD,
+                                               QuestionType questionType, Set<Integer> correctAnswers) {
         Question q = new Question();
         q.setTopic(topic);
         q.setDifficulty(difficulty);
@@ -50,7 +81,8 @@ public class Question {
         q.setOptionB(optionB);
         q.setOptionC(optionC);
         q.setOptionD(optionD);
-        q.setCorrectAnswer(correctAnswer);
+        q.setQuestionType(questionType);
+        q.setCorrectAnswers(new LinkedHashSet<>(correctAnswers));
         return q;
     }
 }
