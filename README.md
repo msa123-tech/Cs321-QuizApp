@@ -40,6 +40,8 @@ Or start them separately in two terminal windows:
 **Terminal 1 – Backend:**
 ```bash
 cd backend
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+export PATH="$JAVA_HOME/bin:$PATH"
 mvn spring-boot:run
 ```
 
@@ -256,41 +258,26 @@ backend/
 2. **Maven** - Install from https://maven.apache.org/
 
 > The backend uses an **H2 in-memory database** by default — no PostgreSQL installation required for local development.
-> To switch to PostgreSQL, see the optional step below.
 
 ## Setup Instructions
 
-### 1. (Optional) Switch to PostgreSQL
-
-By default the app uses H2. To use PostgreSQL instead, update `backend/src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/cs321_quiz_db
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-```
-
-And create the database first:
-
-```bash
-psql -U postgres -c "CREATE DATABASE cs321_quiz_db;"
-```
-
-### 2. Build Backend
+### 1. Build Backend
 
 ```bash
 cd backend
 mvn clean package
 ```
 
-### 3. Run Backend
+### 2. Run Backend
 
 ```bash
 # (still inside the backend/ directory)
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+export PATH="$JAVA_HOME/bin:$PATH"
 mvn spring-boot:run
 ```
+
+Use **Java 17** for the backend. Newer JDKs may cause Lombok/compiler errors during `mvn spring-boot:run`.
 
 The backend will start on **http://localhost:8080**
 
@@ -340,15 +327,13 @@ Content-Type: application/json
 
 ## Troubleshooting
 
-### PostgreSQL Connection Error
-- Verify PostgreSQL is running: `psql -U postgres`
-- Check username/password in `application.properties`
-- Ensure database `cs321_quiz_db` exists
-
 ### Port 8080 Already in Use
 ```bash
-# Find process using port 8080
-netstat -ano | findstr :8080
+# macOS: find the process using port 8080
+lsof -i :8080
+
+# then stop it if needed
+kill -9 <PID>
 ```
 
 ### Build Fails
