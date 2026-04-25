@@ -25,6 +25,8 @@ echo ""
 # ── Backend ──────────────────────────────────────────────────────────────────
 echo "▶ Starting Spring Boot backend on http://localhost:8080 ..."
 cd "$ROOT_DIR/backend"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
+export PATH="$JAVA_HOME/bin:$PATH"
 mvn spring-boot:run &
 BACKEND_PID=$!
 
@@ -42,7 +44,7 @@ echo ""
 echo "✅ Both servers are starting up!"
 echo "   Frontend → http://localhost:5173"
 echo "   Backend  → http://localhost:8080"
-echo "   H2 DB    → http://localhost:8080/h2-console"
+echo "   Database → PostgreSQL at localhost:5432/cs321_quiz_db"
 echo ""
 echo "Press Ctrl+C to stop both servers."
 echo ""
